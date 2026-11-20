@@ -19,10 +19,25 @@ iframe{
 }
 .shield{position:fixed;inset:0;z-index:10}
 </style></head><body>
-<div class="stage">
-<iframe src="https://www.youtube.com/embed/nx32Ue0AAA0?autoplay=1&mute=1&controls=0&disablekb=1&modestbranding=1&rel=0&iv_load_policy=3&cc_load_policy=0&loop=1&playlist=nx32Ue0AAA0"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allow="autoplay; encrypted-media"></iframe>
-</div>
+<div class="stage"><div id="player"></div></div>
 <div class="shield"></div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+var VIDEO_ID='nx32Ue0AAA0';
+function killCaptions(p){
+  try{p.unloadModule('captions');}catch(e){}
+  try{p.unloadModule('cc');}catch(e){}
+}
+function onYouTubeIframeAPIReady(){
+  new YT.Player('player',{
+    videoId:VIDEO_ID,
+    playerVars:{autoplay:1,mute:1,controls:0,disablekb:1,modestbranding:1,rel:0,
+      iv_load_policy:3,cc_load_policy:0,loop:1,playlist:VIDEO_ID,playsinline:1,enablejsapi:1},
+    events:{
+      onReady:function(e){e.target.mute();e.target.playVideo();killCaptions(e.target);},
+      onStateChange:function(e){killCaptions(e.target);}
+    }
+  });
+}
+</script>
 </body></html>
